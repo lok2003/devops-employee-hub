@@ -1,0 +1,81 @@
+namespace:
+  name: employee
+
+replicaCount: 2
+
+selectorLabels:
+  app: employee
+
+labels:
+  app: employee
+  version: v1
+  env: dev
+
+image:
+  repository: 713861277744.dkr.ecr.ap-south-1.amazonaws.com/employee-app
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 128Mi
+
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
+readiness:
+  httpGet:
+    path: /
+    port: 80
+  initialDelaySeconds: 30
+  periodSeconds: 25
+
+liveness:
+  httpGet:
+    path: /
+    port: 80
+  initialDelaySeconds: 40
+  periodSeconds: 35
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 80
+  nodePort: 30080
+
+configMap:
+  enabled: true
+  data:
+    APP_ENV: dev
+    APP_PORT: "80"
+
+secrets:
+  enabled: true
+  data:
+    username: employee
+    password: change-me
+
+persistentVolumeClaim:
+  enabled: false
+  storage: 5Gi
+
+ingress:
+  enabled: true
+
+  className: nginx
+
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+  hosts:
+    - host: employee.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: employee-app-service
+              port:
+                number: 80

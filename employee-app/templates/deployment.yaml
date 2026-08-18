@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "employee.name" . }}
+  namespace: {{ include "employee.namespace" . }}
+
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+
+  selector:
+    matchLabels:
+      {{- range $key, $value := .Values.selectorLabels }}
+      {{ $key }}: {{ $value | quote }}
+      {{- end }}
+
+  template:
+    metadata:
+      labels:
+        {{- range $key, $value := .Values.selectorLabels }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+
+        {{- range $key, $value := .Values.labels }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+
+    spec:
+      containers:
+        - name: {{ include "employee.name" . }}
+
+          {{- with .Values.image }}
+          image: "{{ .repository }}:{{ .tag }}"
+          imagePullPolicy: {{ .pullPolicy }}
+          {{- end }}
+
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+
+          envFrom:
+            {{- if .Values.configMap.enabled }}
+            - configMapRef:
+                name: {{ include "employee.name" . }}-configmap
+            {{- end }}
+
+            {{- if .Values.secrets.enabled }}
+            - secretRef:
+                name: {{ include "employee.name" . }}-secret
+            {{- end }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+          readinessProbe:
+            {{- toYaml .Values.readiness | nindent 12 }}
+
+          livenessProbe:
+            {{- toYaml .Values.liveness | nindent 12 }}
