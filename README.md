@@ -597,6 +597,14 @@ A successful response should return the React application's HTML.
 
 ---
 
+# To get the IP Address 
+```sh
+nslookup <Loadbalancer URL>
+
+nslookp http://a7aaab7b804de4472a6e869824adbce6-1709576681.ap-south-1.elb.amazonaws.com
+```
+You will get 2 IP address 
+
 # Access Application From Browser
 
 For local testing, the hostname can be mapped using the Windows hosts file.
