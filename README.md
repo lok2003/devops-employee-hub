@@ -739,3 +739,6 @@ Kubernetes Deployment
                v
     employee.example.com
 ```
+
+## Expected Output
+![DevOps Employee Hub](images/project-architecture.png)
