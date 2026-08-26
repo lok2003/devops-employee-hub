@@ -28,6 +28,7 @@ jobs:
           path: dist/
   docker:
     needs: build 
+    if: success()
     runs-on: ubuntu-latest 
     steps:
       - name: Get the Code 
@@ -46,7 +47,7 @@ jobs:
             -t lok2003/react-app:latest \
             .  
       - name: Push Docker Image
+        if: github.ref == 'refs/heads/main'
         run: |
            docker push lok2003/react-app:${{ github.sha }}
            docker push lok2003/react-app:latest 
-           
