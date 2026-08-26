@@ -49,3 +49,4 @@ jobs:
         run: |
            docker push lok2003/react-app:${{ github.sha }}
            docker push lok2003/react-app:latest 
+           
