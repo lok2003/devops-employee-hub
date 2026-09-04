@@ -93,7 +93,7 @@ devops-employee-hub/
     └── templates/
 ``` 
 
-# React Application 
+# [React Application](src/) 
 * Install Dependencies 
 ```sh
 npm install 
@@ -108,7 +108,7 @@ npm run dev
 npm run build
 ```
 
-# [Open the Terraform Directory](terraform/)
+# [Terraform ](terraform/)
 
 Terraform is used to provision the AWS infrastructure.
 
@@ -155,7 +155,7 @@ terraform apply
 terraform destroy 
 ```
 
-# Docker 
+# [Docker](Docker)
 
 * Create Docker Image
 ```sh
@@ -348,7 +348,7 @@ kubectl get all -n employee
 
 ---
 
-# Helm
+# [Helm](employee-app/)
 
 Helm is used to package and deploy the Kubernetes application.
 
