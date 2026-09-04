@@ -108,7 +108,8 @@ npm run dev
 npm run build
 ```
 
-# Terraform 
+# [Open the Terraform Directory](terraform/)
+
 Terraform is used to provision the AWS infrastructure.
 
 * VPC
